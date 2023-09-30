@@ -1,0 +1,50 @@
+
+<button data-id="{{ forloop.counter0 }}" class="btn btn-danger btn-sm float-end delete-btn">Delete</button>
+
+
+<script>
+$(document).ready(function() {
+    $(".delete-btn").click(function(event) {
+        event.preventDefault();
+        let task_id = $(this).data("id");
+        $.ajax({
+            url: `{% url 'delete' 0 %}`.replace('0', task_id),
+            type: 'POST',
+            data: { csrfmiddlewaretoken: '{{ csrf_token }}' },
+            success: function(response) {
+                if(response.status === 'ok') {
+                    location.reload();
+                } else {
+                    alert("Error deleting task");
+                }
+            }
+        });
+    });
+});
+</script>
+
+Notes:
+JavaScript/jQuery script breakdown:
+
+$(document).ready(function() {...});: This ensures the contained code doesn't run until the page has fully loaded.
+
+$(".delete-btn").click(function(event) {...});: This sets up a click event listener on all elements with the class delete-btn. When a button with this class is clicked, the contained function will execute.
+
+event.preventDefault();: This prevents the default action of the button click (in this case, following a link). This is necessary because we want to handle the deletion via AJAX rather than a traditional page reload.
+
+let task_id = $(this).data("id");: This gets the task_id for the clicked task. We stored the task_id in the data-id attribute of each delete button. $(this) refers to the button that was clicked, and .data("id") fetches the task_id from the data-id attribute.
+
+$.ajax({...});: This is the jQuery function to make an AJAX request. Let's see its components:
+
+url: The URL to which the AJAX request should be made. We're using Django's URL templating to get the URL for the delete view, and replacing the placeholder 0 with the actual task_id.
+type: The HTTP method. In this case, we're making a POST request.
+data: Data to send with the request. We're sending the CSRF token for security reasons.
+success: A function that gets executed if the AJAX request succeeds. Here, we're checking if the server returned a success status. If it did, we reload the page. Otherwise, we show an alert.
+AJAX:
+AJAX stands for Asynchronous JavaScript and XML. It allows web pages to be updated asynchronously by exchanging small amounts of data with the server. This means it's possible to update parts of a web page, without reloading the whole page. In the context of your tasks app, this allows a task to be deleted without reloading the whole page.
+
+So, when a user clicks on a delete button:
+
+The script fetches the corresponding task_id.
+Makes an AJAX request to the server to delete the task with that ID.
+If successful, the page reloads, showing the updated list of tasks without the one that was deleted.

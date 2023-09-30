@@ -1,0 +1,23 @@
+#to open django shell
+$python manage.py shell
+
+
+from django.contrib.sessions.models import Session
+#get session_key from the database browser table django_session 
+session_key = 'cs83md70qgqme3g6fle6ag2xgqqm3h8k'
+
+try:
+    session = Session.objects.get(session_key=session_key)
+    encoded_data = session.session_data
+    print("Encoded session data:", encoded_data)
+   
+except Session.DoesNotExist:
+    print(f"No session found for key {session_key}")
+
+
+from django.contrib.sessions.backends.db import SessionStore
+
+
+store = SessionStore()
+session_data = store.decode(encoded_data)
+print(session_data)

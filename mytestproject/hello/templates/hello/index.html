@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'hello/styles.css'%}">
+    <title>Welcome to Lightning Reality</title>
+    
+</head>
+<body>
+
+    <div class="container">
+        <!-- header -->
+        <header>
+            <h1>Welcome to Shoppers</h1>
+        </header>
+
+        <!-- main content -->
+        <main>
+            <div class="image-container">
+                <!-- Your image will be displayed here as a background -->
+            </div>
+            <div class="login-container">
+                <form id="login-form">
+                    <div class="input-group">
+                        <label for="loginID">Login ID</label>
+                        <input type="text" id="loginID" name="loginID" placeholder="Login ID">
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Password">
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+            </div>
+        </main>
+
+        <!-- footer -->
+        <footer>
+            <p>Your Footer Content Here</p>
+        </footer>
+    </div>
+    
+</body>
+</html>

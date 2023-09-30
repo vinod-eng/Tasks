@@ -1,0 +1,10 @@
+{% extends "tasks/layout.html" %}  <!-- Assuming you have a base.html template -->
+
+{% block body %}
+  <h1>Session Data</h1>
+  <ul>
+    {% for key, value in session_data.items %}
+        <li><strong>{{ key }}:</strong> {{ value }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

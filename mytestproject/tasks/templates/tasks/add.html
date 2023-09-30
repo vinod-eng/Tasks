@@ -1,0 +1,44 @@
+{% extends "tasks/layout.html" %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <h1>Add Task</h1>
+
+    <!-- Display alerts if there are any -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form action="{% url 'add' %}" method="post">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="taskInput" class="form-label">Task</label>
+            <input type="text" class="form-control" id="taskInput" name="task" placeholder="Enter your task" required>
+        </div>
+        
+        <input type="submit" class="btn btn-primary" value="Add Task">
+    </form>
+
+    <div class="mt-5">
+        <h2>Tasks</h2>
+        <ul class="list-group">
+            {% if tasks %}
+                {% for task in tasks %}
+                <li class="list-group-item">{{ task }}</li>
+                {% endfor %}
+            {% else %}
+                <li class="list-group-item">No tasks yet.</li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
+
+            

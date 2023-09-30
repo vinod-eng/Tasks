@@ -1,0 +1,32 @@
+
+
+///index.html file///
+
+{% for task in tasks %}
+    <li class="list-group-item">
+        {{ task }}
+        <a href="{% url 'delete' forloop.counter0 %}" class="btn btn-danger btn-sm float-end">Delete</a>
+    </li>
+{% endfor %}
+
+
+////urls.py////
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.index, name="index"),
+    path('add', views.add, name="add"),
+    path('delete/<int:task_id>', views.delete, name="delete"),  # New URL pattern for delete
+]
+
+////////views.py/////
+
+def delete(request, task_id):
+    tasks = request.session.get('tasks', [])
+    if 0 <= task_id < len(tasks):  # Check if the task_id is valid
+        tasks.pop(task_id)  # Remove the task with the specified index
+        request.session['tasks'] = tasks  # Update the session
+    return HttpResponseRedirect(reverse("index"))
+
